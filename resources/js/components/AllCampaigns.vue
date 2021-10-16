@@ -11,6 +11,7 @@
                 <th>Ends</th>
                 <th>Daily Budget</th>
                 <th>Total Budget</th>
+                <th>Number of Images</th>
                 <!-- <th>Actions</th> -->
             </tr>
             </thead>
@@ -22,6 +23,7 @@
                 <td>{{ campaign.from }}</td>
                 <td>{{ campaign.daily_budget }}</td>
                 <td>{{ campaign.total_budget }}</td>
+                <td>{{ campaign.images.length }}</td>
                 <td>
                     <div class="btn-group" role="group">
                         <router-link :to="{name: 'edit', params: { id: campaign.id }}" class="btn btn-success">Edit</router-link>

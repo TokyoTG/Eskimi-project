@@ -14,7 +14,7 @@ class CampaignController extends Controller
      */
     public function index()
     {
-        $campaigns = Campaign::all()->toArray();
+        $campaigns = Campaign::with('images')->get()->toArray();
         return array_reverse($campaigns);    
     }
 
