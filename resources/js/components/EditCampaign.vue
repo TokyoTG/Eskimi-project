@@ -24,7 +24,7 @@
                         <label>Total Budget</label>
                         <input type="number" class="form-control" v-model="campaign.total_budget" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <reusable-button :config="{'class': 'btn-primary','text':'Update','type':'submit'}"></reusable-button>
                 </form>
             </div>
         </div>
@@ -32,12 +32,16 @@
 </template>
  
 <script>
+    import ReusableButton from './Button.vue';
     export default {
         data() {
             return {
                 campaign: {},
                 images:[],
             }
+        },
+        components:{
+            ReusableButton
         },
         created() {
             this.axios
