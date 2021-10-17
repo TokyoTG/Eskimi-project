@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Campaign;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class CampaignController extends Controller
 {
@@ -36,6 +38,19 @@ class CampaignController extends Controller
      */
     public function store(Request $request)
     {
+ 
+        $validator = Validator::make($request->all(), [
+            'name' => "required",
+            'from' => "required",
+            'to' => "required",
+            'daily_budget' => "required",
+            'total_budget' => "required",
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return response()->json(['message' => "The given data was invalid.", 'errors' =>$errors],422);
+        }
         $campaign = new Campaign([
             'name' => $request->input('name'),
             'from' => $request->input('from'),
@@ -45,7 +60,7 @@ class CampaignController extends Controller
         ]);
         $campaign->save();
 
-        return response()->json('Campaign created!');
+        return response()->json(['campaign' => $campaign],201);
     }
 
     /**
@@ -81,6 +96,13 @@ class CampaignController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => "required",
+            'from' => "required",
+            'to' => "required",
+            'daily_budget' => "required",
+            'total_budget' => "required",
+        ]);
         $campaign = Campaign::find($id);
         $campaign->update($request->all());
 

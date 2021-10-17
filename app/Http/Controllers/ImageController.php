@@ -48,30 +48,28 @@ class ImageController extends Controller
             foreach ($errors->all() as $message) {
                 return response()->json(['status' => false,'message' => $message]);
             }
-        } else {
-            try{
-                
-                $campaign = Campaign::find($request->input('campaign_id'));
-                if($campaign){
-                    $image = $request->file('image');
-                    $fileName = pathinfo($image->getClientOriginalName(),PATHINFO_FILENAME);
-                    $extension = $image->getClientOriginalExtension();
-                    $fileNameToStore = $fileName."_"."_".time(). ".".$extension;
-                    $path = $request->file('image')->storeAs('public/campaign-images/',$fileNameToStore);
-                   $image = Image::create([
-                        'campaign_id' =>  $request->input('campaign_id'),
-                        'url' =>  $fileNameToStore
-                    ]);
-                    return response()->json(['status'=>true,'image' => $image]);
-                }else{
-                    return response()->json(['status'=>false,'message' =>'campaign not found']);
-                }
+        }
 
-            }catch(Exception $e){
-                return response()->json($e->getMessage());
+        try{
+            
+            $campaign = Campaign::find($request->input('campaign_id'));
+            if($campaign){
+                $image = $request->file('image');
+                $fileName = pathinfo($image->getClientOriginalName(),PATHINFO_FILENAME);
+                $extension = $image->getClientOriginalExtension();
+                $fileNameToStore = $fileName."_"."_".time(). ".".$extension;
+                $path = $request->file('image')->storeAs('public/campaign-images/',$fileNameToStore);
+                $image = Image::create([
+                    'campaign_id' =>  $request->input('campaign_id'),
+                    'url' =>  $fileNameToStore
+                ]);
+                return response()->json(['status'=>true,'image' => $image]);
+            }else{
+                return response()->json(['status'=>false,'message' =>'campaign not found']);
             }
 
-
+        }catch(Exception $e){
+            return response()->json($e->getMessage());
         }
     }
 
