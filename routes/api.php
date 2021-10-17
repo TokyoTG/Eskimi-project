@@ -16,4 +16,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('api')->group(function () {
     Route::resource('campaigns', CampaignController::class);
+    Route::resource('images', ImageController::class);
 });
